@@ -70,6 +70,7 @@ def meanTemp():
 	2. Capture response in JSON
 	3. Parse Response
 	4. Calculate the mean of parameter
+        5. Returns data and message
 
 	Help:
 	1. Sample Get Capabilities request
@@ -109,8 +110,14 @@ def meanTemp():
 	#startDate = eventTime.strftime('%Y-%m-%dT%H:%M:%S%z')
 	#startDate = datetime.datetime(2014,05,03,16,30,0, tzinfo=timezone(time.tzname[0])).strftime('%Y-%m-%dT%H:%M:%S%z')
 	startDate = datetime.datetime(2014,05,03,16,30,0, tzinfo=timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%S%z')
+        startD = datetime.datetime(2014,05,03,16,30,0, tzinfo=timezone('UTC'))
 	#endDate = datetime.datetime(2014,05,03,20,30,0, tzinfo=timezone(time.tzname[0])).strftime('%Y-%m-%dT%H:%M:%S%z')
-	endDate = datetime.datetime(2014,05,04,20,30,0, tzinfo=timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%S%z')
+	endDate = datetime.datetime(2014,05,07,20,30,0, tzinfo=timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%S%z')
+        endD = datetime.datetime(2014,05,07,20,30,0, tzinfo=timezone('UTC'))
+        diff = endD - startD
+        days = diff.days
+        hours = (diff.seconds/3600)
+        secs = (diff.seconds-(hours*3600))/60
 	print (startDate, endDate)
 	
 	rparams = {"service": "SOS", "offering": "BELLINZONA", "request": "GetObservation", "version": "1.0.0", "responseFormat": "application/json", "observedProperty": "air:temperature", "procedure": "BELLINZONA"}
@@ -134,7 +141,7 @@ def meanTemp():
 		message = "Cannot make mean with no data"
 	else:
 		mean = mean / count
-		message = "The mean temp in "+ str(placeName) +" in the last hour: "  + str(mean)
+		message = "At "+ str(placeName) +" for last "+str(days)+" day/s, "+str(hours)+" hour/s, "+str(secs)+" seconds average temperature = " + str(mean)
 	"""	
 	# 
 	# this structure is mandatory to send notification
@@ -153,11 +160,12 @@ def meanTemp():
 	import wnslib.notificationScheduler as nS
 	nS.notify('meanTemp',notify, True)
 	"""
-	return(message)
+	return(message, result)
 #-----------------------------------------------------------------------
 # implementation
-someMessage = meanTemp()
-print(someMessage)
+#someMessage, data = meanTemp()
+#print(someMessage)
+#print(data)
 # To do
 # 1. Push data through Telegram Bot
 # 2. Check feasibility for localhost
