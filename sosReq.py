@@ -2,8 +2,8 @@
 #-----------------------------------------------------------------------
 # Author: Suryakant Sawant
 # Date: 13 May 2016 >> 17 may 2016
-# Objective: 1. standalone interfase for SOS requests and response 
-#	2. add GetCapability parser
+# Objective: 	1. standalone interfase for SOS requests and response 
+#		2. 
 #-----------------------------------------------------------------------
 """
 import re, os, fnmatch
@@ -163,57 +163,6 @@ def meanTemp():
 	nS.notify('meanTemp',notify, True)
 	"""
 	return(message, result)
-#-----------------------------------------------------------------------
-def parseSOScap(url):
-	"""
-	url [str] URL / service GetCapabilities request
-	output dict of service details
-	To Do: Catch response, Parse Response, Form Dict
-	"""
-	detailsDict ={} # e.g. detailsDict['water']=100
-	# import request class
-	import requests as requests
-	# Check and verify Get Capabilities request
-	verify = verifyGCReq(url)
-	if verify == 'VALID':
-		# Send request
-		res = requests.get(url)
-		print(res, res.text)
-		# Catch response
-	
-		# Parse Response
-
-		# Form Dict
-	
-	elif verify == 'INVALID':
-		print(Fore.RED+"URL is Invalid check URL content for 'http:','request','getCapabilities', 'SOS' and 'service'")	
-	else:
-		print(Fore.RED+"There is unknown problem with URL")
-	return detailsDict
-#-----------------------------------------------------------------------
-def verifyGCReq(url):
-	"""
-	Check and verify Get Capabilities request
-
-	url [str] URL / service GetCapabilities request
-	
-	output VALID/ INVALID / ERROR
-	"""
-	verify = "ERROR"
-	splitURL = re.split("/|=|&|\\?", url)
-	findThis = ['http:','request','getCapabilities', 'SOS', 'service']
-	foundThis = []
-	for i in range(len(findThis)):
-		me = fnmatch.filter(splitURL, '*'+findThis[i]+'*')
-		if me != []:
-			foundThis.append(me)
-	if len(findThis) == len(foundThis):
-		verify = "VALID"
-	else:
-		verify = "INVALID"
-	print (findThis)
-	print (foundThis)
-	return verify
 #-----------------------------------------------------------------------
 # implementation
 #someMessage, data = meanTemp()
