@@ -5,7 +5,7 @@
 #
 #--------------------------------------------------------------------
 import telegram
-bot = telegram.Bot(token='my_bot_token') # my token 
+bot = telegram.Bot(token='TOKEN') # my token 
 bot.getMe() # details about bot
 
 updates = bot.getUpdates()

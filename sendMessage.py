@@ -5,7 +5,7 @@
 #
 #--------------------------------------------------------------------
 import telegram, datetime, time
-bot = telegram.Bot(token='my_bot_token') # my token 
+bot = telegram.Bot(token='TOKEN') # my token 
 bot.getMe() # details about bot
 
 # Get chat id is must
